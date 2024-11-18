@@ -21,14 +21,7 @@ calculate_cdr_jobs <- function(db_path, db_name, dat_file, scenario_list, region
   output_type <- match.arg(output_type, several.ok = TRUE)
   if (!dir.exists(output_path)) stop("The specified output_path does not exist.")
 
-  CDR_query <- '<?xml version="1.0"?>
-  <queries>
-  <aQuery>
-  <all-regions/>
-  <emissionsQueryBuilder title="CO2 sequestration by tech">
-  <axis1 name="subsector">subsector</axis1>
-  <axis2 name="Year">emissions-sequestered</axis2>
-  <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = "sector"]/*[@type="subsector"]/*[@type="technology"]//CO2/emissions-sequestered/node()</xPath></emissionsQueryBuilder></aQuery></queries>'
+  CDR_query <- '<?xml version="1.0"?><queries><aQuery><all-regions/><emissionsQueryBuilder title="CO2 sequestration by tech"><axis1 name="subsector">subsector</axis1><axis2 name="Year">emissions-sequestered</axis2><xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = "sector"]/*[@type="subsector"]/*[@type="technology"]//CO2/emissions-sequestered/node()</xPath></emissionsQueryBuilder></aQuery></queries>'
   query_file <- tempfile(fileext = ".xml")
   writeLines(CDR_query, query_file)
 
@@ -36,18 +29,19 @@ calculate_cdr_jobs <- function(db_path, db_name, dat_file, scenario_list, region
   CDR_Output <- getQuery(CDR_tech, "CO2 sequestration by tech")
   if (!is.null(region_list)) CDR_Output <- CDR_Output %>% filter(region %in% region_list)
 
-  data("CDR_Job_Inten", package = "CDRJOBS1")
+  data("technology_lookup", package = "CDRJOBS1")
 
-  joined_data <- dplyr::left_join(CDR_Output, CDR_Job_Inten, by = c("technology" = "CDR"))
+  # Join CDR_Output with technology_lookup directly
+  joined_data <- dplyr::left_join(CDR_Output, technology_lookup, by = "technology")
   if (nrow(joined_data) == 0) stop("Join failed: technology column not found in the data.")
 
   calculate_jobs <- function(data) {
     data %>%
       group_by(across(-value)) %>%
       summarize(
-        mean_Jobs = sum(mean_int * 3.667 * 10^6 * value, na.rm = TRUE),
-        min_Jobs = sum(min_int * 3.667 * 10^6 * value, na.rm = TRUE),
-        max_Jobs = sum(max_int * 3.667 * 10^6 * value, na.rm = TRUE),
+        mean_Jobs = sum(Job_intensity * 3.667 * 10^6 * value, na.rm = TRUE),
+        min_Jobs = min(Job_intensity * 3.667 * 10^6 * value, na.rm = TRUE),
+        max_Jobs = max(Job_intensity * 3.667 * 10^6 * value, na.rm = TRUE),
         .groups = "drop"
       )
   }

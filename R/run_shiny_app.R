@@ -16,6 +16,7 @@ run_shiny_app <- function(results) {
     sidebarLayout(
       sidebarPanel(
         selectInput("dataset", "Select Dataset:", choices = names(results)),
+        selectInput("type", "Select Visualization Type:", choices = c("total_year", "cum_tech", "cum_total", "tech_year")),
         selectInput("job_metric", "Select Job Metric:", choices = c("mean_Jobs", "min_Jobs", "max_Jobs")),
         numericInput("ncol", "Number of Columns for Facets:", value = 2, min = 1),
         numericInput("nrow", "Number of Rows for Facets:", value = 1, min = 1)
@@ -28,8 +29,15 @@ run_shiny_app <- function(results) {
 
   server <- function(input, output) {
     output$jobPlot <- renderPlot({
+      req(input$dataset)
       data <- results[[input$dataset]]
-      visualize_results(data, job_metric = input$job_metric, ncol = input$ncol, nrow = input$nrow)
+      visualize_results(
+        data,
+        type = input$type,
+        job_metric = input$job_metric,
+        ncol = input$ncol,
+        nrow = input$nrow
+      )
     })
   }
 

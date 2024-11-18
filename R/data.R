@@ -1,17 +1,14 @@
 #' Job Intensities for Various CDR Technologies
 #'
-#' A dataset containing job intensities (`min_int`, `mean_int`, `max_int`) for various
-#' Carbon Dioxide Removal (CDR) technologies.
+#' A dataset containing job intensities for various Carbon Dioxide Removal (CDR) technologies.
 #'
 #' @format A data frame with columns:
 #' \describe{
-#'   \item{CDR}{Name of the CDR technology.}
-#'   \item{min_int}{Minimum job intensity (jobs per tCO2 removed).}
-#'   \item{mean_int}{Mean job intensity (jobs per tCO2 removed).}
-#'   \item{max_int}{Maximum job intensity (jobs per tCO2 removed).}
-#'   \item{units}{Units for job intensity.}
+#'   \item{technology}{Name of the specific technology.}
+#'   \item{CDR_category}{Category of the CDR technology (e.g., BECCS, DAC).}
+#'   \item{Job_intensity}{Job intensity (jobs per tCO2 removed).}
 #' }
 #' @examples
-#' data(summarized_CDR_Job_Inten)
-#' head(summarized_CDR_Job_Inten)
-"summarized_CDR_Job_Inten"
+#' data(technology_lookup)
+#' head(technology_lookup)
+"technology_lookup"
