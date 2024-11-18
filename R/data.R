@@ -12,6 +12,6 @@
 #'   \item{units}{Units for job intensity.}
 #' }
 #' @examples
-#' data(CDR_Job_Inten)
-#' head(CDR_Job_Inten)
-"CDR_Job_Inten"
+#' data(summarized_CDR_Job_Inten)
+#' head(summarized_CDR_Job_Inten)
+"summarized_CDR_Job_Inten"
