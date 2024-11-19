@@ -85,7 +85,7 @@ calculate_cdr_jobs <- function(db_path,
   }
 
   # Join the CDR Output with job intensity values
-  CDR_Job_Inten_new<-technology_df %>%left_join(CDR_Job_Inten,by=c("GCAM_techn"="CDR"), relationship = "many-to-many")
+  CDR_Job_Inten_new<-technology_df%>%left_join(CDR_Job_Inten,by=c("GCAM_techn"="CDR"), relationship = "many-to-many")
   # Calculate jobs by year and technology
   Job_total_year <- calculate_jobs(joined_data %>% group_by(scenario, region, year))
   Job_by_tech_year <- calculate_jobs(joined_data %>% group_by(scenario, region, technology, year))
