@@ -8,6 +8,9 @@ visualize_results(
   data,
   type = c("total_year", "cum_tech", "tech_year", "cum_total"),
   job_metric = c("mean_Jobs", "min_Jobs", "max_Jobs"),
+  selected_scenarios = NULL,
+  selected_regions = NULL,
+  selected_years = NULL,
   ncol = 2,
   nrow = NULL,
   output_path = getwd()
@@ -20,17 +23,17 @@ visualize_results(
 
 \item{job_metric}{The metric to visualize. One of "mean_Jobs", "min_Jobs", "max_Jobs".}
 
-\item{ncol}{Number of columns for the facets.}
-
-\item{nrow}{Number of rows for the facets. If NULL, rows are determined dynamically by ggplot2.}
-
-\item{output_path}{The directory where plots will be saved as PNG files.}
-
 \item{selected_scenarios}{A vector of scenario names to include, or NULL for all.}
 
 \item{selected_regions}{A vector of region names to include, or NULL for all.}
 
 \item{selected_years}{A vector of years to include (for "total_year"), or NULL for all.}
+
+\item{ncol}{Number of columns for the facets.}
+
+\item{nrow}{Number of rows for the facets. If NULL, rows are determined dynamically by ggplot2.}
+
+\item{output_path}{The directory where plots will be saved as PNG files.}
 }
 \description{
 Creates faceted plots for CDR job estimation results.
