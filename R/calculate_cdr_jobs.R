@@ -62,7 +62,7 @@ calculate_cdr_jobs <- function(db_path,
   CDR_tech <- addScenario(localDBConn(db_path, db_name), paste0(dat_file, ".dat"), scenario_list, query_file)
 
   # Query the database for CDR outputs
-  CDR_Output <- getQuery(CDR_tech, " CO2 sequestration by tech")
+  CDR_Output <- getQuery(CDR_tech, "CO2 sequestration by tech")
 
   # Filter by region if region_list is provided
   if (!is.null(region_list)) {
